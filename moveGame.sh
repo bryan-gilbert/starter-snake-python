@@ -2,25 +2,84 @@
 
 curl -XPOST -H 'Content-Type: application/json' -d '
 {
-    "game": {"id": "game-id-string"},
-    "turn": 4,
-    "board": {"height": 15, "width": 15,
-        "food": [{"x": 1,"y": 3}],
-        "snakes": [
-            {
-            "id": "snake-id-string",
-            "name": "BSnake",
-            "health": 90,
-            "body": [{"x": 1,"y": 3}],
-            "shout": "Hello my name is BSnake"
-            }
-        ]
-    },
-    "you": {
-        "id": "snake-id-string",
-        "name": "BSnake",
-        "health": 90,
-        "body": [{"x": 1,"y": 3}],
-        "shout": "Hello my name is BSnake"
-    }
+   "game":{
+      "id":"e3a8d180-1cfd-43fb-bff4-6b5f65a7e1f7"
+   },
+   "turn":0,
+   "board":{
+      "height":11,
+      "width":11,
+      "food":[
+         {
+            "x":3,
+            "y":3
+         },
+         {
+            "x":0,
+            "y":9
+         }
+      ],
+      "snakes":[
+         {
+            "id":"gs_vYMK3fVwDbM4JMJTqGQVwPwJ",
+            "name":"simple-sample-snake",
+            "health":100,
+            "body":[
+               {
+                  "x":1,
+                  "y":5
+               },
+               {
+                  "x":1,
+                  "y":5
+               },
+               {
+                  "x":1,
+                  "y":5
+               }
+            ],
+            "shout":""
+         },
+         {
+            "id":"gs_mc978CBx7tYKCd3B9cbXJgWB",
+            "name":"Zombie Snake",
+            "health":100,
+            "body":[
+               {
+                  "x":9,
+                  "y":1
+               },
+               {
+                  "x":9,
+                  "y":1
+               },
+               {
+                  "x":9,
+                  "y":1
+               }
+            ],
+            "shout":""
+         }
+      ]
+   },
+   "you":{
+      "id":"gs_mc978CBx7tYKCd3B9cbXJgWB",
+      "name":"Zombie Snake",
+      "health":100,
+      "body":[
+         {
+            "x":9,
+            "y":1
+         },
+         {
+            "x":9,
+            "y":1
+         },
+         {
+            "x":9,
+            "y":1
+         }
+      ],
+      "shout":""
+   }
 }' http://localhost:8000/move
