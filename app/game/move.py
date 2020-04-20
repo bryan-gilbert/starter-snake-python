@@ -1,42 +1,17 @@
 import json
-import os
-import random
-from fastapi import Body, FastAPI
-import uvicorn
+from app.models.models import Game
 
-app = FastAPI()
+def moveSimple(data):
+    print("move data: " + json.dumps(data))
+    return {"move": 'up' }
 
-
-@app.get('/')
-def index():
-    return '''
-This is Zombie Snake.
-Battlesnake documentation can be found at
-<a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
-'''
-
-@app.post('/ping')
-def ping():
-    """
-    A keep-alive endpoint used to prevent cloud application platforms,
-    such as Heroku, from sleeping the application instance.
-    """
-    return {"success":"true"}
+def moveGame(game: Game):
+    print("move game: " + game.game.id)
+    print("move turn: " + str(game.turn))
+    return {"move": 'up' }
 
 
-@app.post('/start')
-def start(data = Body(...)):
-    print('start with data', data)
-    print(json.dumps(data))
-    headType = 'bwc-earmuffs'
-    tailType = 'bwc-ice-skate'
-    color = "#add8e6"
-    response = {"color": color, "headType": headType, "tailType": tailType}
-    return response
-
-
-@app.post('/move')
-def move(data = Body(...)):
+def moveBest(data):
     print("move data: " + json.dumps(data))
 
     directions = ['up', 'down', 'left', 'right']
@@ -130,26 +105,3 @@ def move(data = Body(...)):
     print("direc: " + direction)
 
     return {"move": direction }
-
-
-@app.post('/end')
-def end():
-    return {}
-
-
-# You should use uvicorn to run the app locally.  __main__ is provided to run it in a debugger. See
-# https://fastapi.tiangolo.com/tutorial/debugging/
-if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8000)
-
-
-# Expose WSGI app (so gunicorn can find it)
-#application = app.default_app()
-
-#if __name__ == '__main__':
-#    app.run(
-#        application,
-#        host=os.getenv('IP', '0.0.0.0'),
-#        port=os.getenv('PORT', '8080'),
-#        debug=os.getenv('DEBUG', True)
-#    )
