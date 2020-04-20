@@ -44,6 +44,10 @@ class Snake(BaseModel):
         if isValid(coord) : validCoords.append(coord)
         return validCoords
 
+    def nextMove(self, board):
+        possible = self.validNextTiles(board)
+        return possible
+
 
 class Board(BaseModel):
     height: int
@@ -57,6 +61,32 @@ class Board(BaseModel):
         if coord.y < 0 : return False
         if coord.y > self.height : return False
         return True
+
+    def getBodyParts(self):
+        # appends the coordinates of the snakes to an array of coordinates to avoid
+        avoid:List[Coord] = []
+        snakes = self.snakes
+        num_snakes = len(snakes)
+        for i in range(num_snakes):
+            aSnake = snakes[i]
+            for j in range(len(aSnake.body)):
+                pos = aSnake.body[j]
+                avoid.append(pos)
+        return avoid
+
+    def getDangerZones(self,forSnake):
+        # appends the coordinates of the tiles where dangerous snakes may place their head in the next move
+        avoid:List[Coord] = []
+        forSnakeSize = forSnake.length()
+        forSnakeId = forSnake.id
+        snakes = self.snakes
+        num_snakes = len(snakes)
+        for i in range(num_snakes):
+            aSnake = snakes[i]
+            if aSnake.id != forSnake.id and aSnake.length() >= forSnake.length() :
+                nextTiles = aSnake.validNextTiles(self)
+                avoid += nextTiles
+        return avoid
 
 class Game(BaseModel):
     game: GameId

@@ -8,45 +8,6 @@ def moveSimple(data):
     print("move data: " + json.dumps(data))
     return {"move": 'up' }
 
-def validNextTiles(game, snake):
-    board = game.board
-    height = board.height
-    width = board.width
-    head = snake.body[0]
-    body = snake.body[1] if len(snake.body) > 1 else None
-    valid: List[Coord] = []
-
-
-def buildAvoid(game):
-    # appends the coordinates of the snakes to an array of coordinates to avoid
-    avoid:List[Coord] = []
-    num_snakes = len(game.board.snakes)
-    snakes = game.board.snakes
-    for i in range(num_snakes):
-        aSnake = snakes[i]
-        for j in range(len(aSnake.body)):
-            pos = aSnake.body[i]
-            avoid.append(pos)
-    avoidBoundaries(game, avoid)
-    return avoid
-
-def avoidBoundaries(game, avoid):
-    height = game.board.height
-    width = game.board.width
-    head = Coord(x=19999,y=3333)
-    avoid.append(head)
-    # appends the coordinates of the borders to the array of coordinates to avoid
-    for i in range(height):
-        string = "(" + '-1' + ',' + str(i) + ")"
-        avoid.append(string)
-        string = "(" + str(width) + ',' + str(i) + ")"
-        avoid.append(string)
-    for i in range(width):
-        string = "(" + str(i) + ',' + '-1' + ")"
-        avoid.append(string)
-        string = "(" + str(i) + ',' + str(height) + ")"
-        avoid.append(string)
-
 
 def moveGame(game: Game):
     print("move game: " + game.game.id)
