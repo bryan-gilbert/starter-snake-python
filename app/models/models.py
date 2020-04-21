@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
+
 class GameId(BaseModel):
     id: str
 
@@ -44,7 +45,7 @@ class Snake(BaseModel):
         if isValid(coord) : validCoords.append(coord)
         return validCoords
 
-    def nextMove(self, board):
+    def possibleMoveTiles(self, board):
         possible = self.validNextTiles(board)
         bodyParts = board.getBodyParts()
         tentative = []
@@ -71,20 +72,6 @@ class Board(BaseModel):
     width: int
     food: List[Coord]
     snakes: List[Snake]
-
-    def direction(self, c1:Coord, c2:Coord):
-        """ c1 is the "from" tile and c2 is the "to" tile """
-        direction = ''
-        assert c1 != c2
-        if c2.x > c1.x:
-            direction = 'right'
-        elif c2.x < c1.x:
-            direction = 'left'
-        elif c2.y > c1.y:
-            direction = 'down'
-        else:
-            direction = 'up'
-        return direction
 
     def inBounds(self, coord:Coord):
         if coord.x < 0 : return False
@@ -119,6 +106,11 @@ class Board(BaseModel):
                 avoid += nextTiles
         return avoid
 
+    def selectTile(self, possibleTiles: List[Coord]):
+        assert len(possibleTiles) > 0
+        # TODO  improve this algorithm
+        return possibleTiles[0]
+
 class Game(BaseModel):
     game: GameId
     turn: int
@@ -127,3 +119,17 @@ class Game(BaseModel):
 
     def myLength(self):
         return self.you.length()
+
+def directionFromTo(c1:Coord, c2:Coord):
+    """ c1 is the "from" tile and c2 is the "to" tile """
+    direction = ''
+    assert c1 != c2
+    if c2.x > c1.x:
+        direction = 'right'
+    elif c2.x < c1.x:
+        direction = 'left'
+    elif c2.y > c1.y:
+        direction = 'down'
+    else:
+        direction = 'up'
+    return direction

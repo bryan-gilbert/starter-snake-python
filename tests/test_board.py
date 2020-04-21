@@ -1,5 +1,5 @@
 import json
-from app.models.models import Board, Coord, Game, Snake
+from app.models.models import directionFromTo, Board, Coord, Game, Snake
 from jsonData import getGameJson, getBoardJson, getSnakeJson
 
 def createSnake():
@@ -25,31 +25,27 @@ class TestBoard:
         assert board.inBounds(Coord(x=-1,y=dim)) == False
 
     def test_direction_down(self):
-        board = createBoard()
         c1 = Coord(x=5,y=5)
         c2 = Coord(x=c1.x, y=c1.y+1)
-        direction = board.direction(c1,c2)
+        direction = directionFromTo(c1,c2)
         assert direction == 'down'
 
     def test_direction_up(self):
-        board = createBoard()
         c1 = Coord(x=5,y=5)
         c2 = Coord(x=c1.x, y=c1.y-1)
-        direction = board.direction(c1,c2)
+        direction = directionFromTo(c1,c2)
         assert direction == 'up'
 
     def test_direction_right(self):
-        board = createBoard()
         c1 = Coord(x=5,y=5)
         c2 = Coord(x=c1.x+1, y=c1.y)
-        direction = board.direction(c1,c2)
+        direction = directionFromTo(c1,c2)
         assert direction == 'right'
 
     def test_direction_left(self):
-        board = createBoard()
         c1 = Coord(x=5,y=5)
         c2 = Coord(x=c1.x-1, y=c1.y)
-        direction = board.direction(c1,c2)
+        direction = directionFromTo(c1,c2)
         assert direction == 'left'
 
     def test_avoidBodyParts(self):
@@ -169,10 +165,13 @@ class TestSnake:
         print(validNext)
         assert validNext == [Coord(x=1, y=dy)]
 
-    def test_nextMove(self):
+
+class TestMove:
+
+    def test_possibleMoveTiles(self):
         board = createBoard()
         snake = board.snakes[1]
-        validNext = snake.nextMove(self.board)
+        validNext = snake.possibleMoveTiles(board)
         expected = [Coord(x=2, y=3), Coord(x=3, y=2)]
         print('validNext')
         print(validNext)
@@ -180,4 +179,19 @@ class TestSnake:
         print(expected)
         print(snake.shout)
         assert validNext == expected
+        #assert False
+
+    def test_nextMove(self):
+        board = createBoard()
+        snake = board.snakes[1]
+        validNext = snake.possibleMoveTiles(board)
+        nextMove = board.selectTile(validNext)
+        ## TODO when nextMove improves replace following
+        expected = validNext[0]
+        print('nextMove')
+        print(nextMove)
+        print('expected')
+        print(expected)
+        print(snake.shout)
+        assert nextMove == expected
         #assert False

@@ -2,7 +2,7 @@ import json
 import random
 
 from typing import List
-from app.models.models import Game, Coord
+from app.models.models import Game, Coord, directionFromTo
 
 def moveSimple(data):
     print("move data: " + json.dumps(data))
@@ -12,19 +12,13 @@ def moveSimple(data):
 def moveGame(game: Game):
     print("move game: " + game.game.id)
     print("move turn: " + str(game.turn))
-    directions = ['up', 'down', 'left', 'right']
-    value = game.turn % 12
-    health = game.you.health
-    print("value {:n} health {:n}".format(value, health))
-    food = game.board.food[0]
-    height = game.board.height
-    width = game.board.width
-    head = game.you.body[0]
-    num_snakes = len(game.board.snakes)
-    print("there are {} snakes on the board including you".format(num_snakes))
-    avoid = buildAvoid(game)
-    print(avoid)
-    return {"move": 'up' }
+    board = game.board
+    snake = game.you
+    head = snake.body[0]
+    validNext = snake.possibleMoveTiles(board)
+    nextMove = board.selectTile(validNext)
+    direction = directionFromTo(head,nextMove)
+    return {"move": direction }
 
 
 def moveBest(data):
