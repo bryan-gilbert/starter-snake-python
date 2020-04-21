@@ -1,18 +1,23 @@
 import json
-from pathlib import Path
 from timeit import default_timer as timer
 from threading import Timer
 
 from app.models.game import Game
 from app.models.coord import Coord
 
+gameStore = {}
+
 def _storeGameStep(game: Game):
-    Path("games").mkdir(parents=True, exist_ok=True)
-    gameJSON = json.dumps(game.dict())
-    fileName = Path("games/" + game.getId())
-    with open(fileName, "a") as gameFile:
-        print('Save move to file ' + str(fileName))
-        gameFile.write(gameJSON)
+    id = game.getId()
+    if not id in gameStore:
+        gameStore[id] = []
+    list = gameStore[id]
+    list.append(game)
+
+def getGame(id):
+    data = gameStore[id]
+    print(data)
+    return data
 
 def startGame(game: Game):
     print('start with game', game)

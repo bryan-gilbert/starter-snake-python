@@ -2,7 +2,7 @@
 from fastapi import Body, FastAPI
 import uvicorn
 
-from app.game.game import endGame, moveGame, startGame
+from app.game.game import endGame, moveGame, startGame, getGame
 from app.models.game import Game
 
 app = FastAPI()
@@ -34,6 +34,13 @@ def move(data: Game):
 @app.post('/end')
 def end(data: Game):
     return endGame(data)
+
+
+@app.get('/game/{game_id}')
+def end(game_id: str):
+    return getGame(game_id)
+
+
 
 # You should use uvicorn to run the app locally.  __main__ is provided to run it in a debugger. See
 # https://fastapi.tiangolo.com/tutorial/debugging/
