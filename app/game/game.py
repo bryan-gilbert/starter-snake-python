@@ -11,6 +11,7 @@ def _storeGameStep(game: Game):
     gameJSON = json.dumps(game.dict())
     fileName = Path("games/" + game.getId())
     with open(fileName, "a") as gameFile:
+        print('Save move to file ' + str(fileName))
         gameFile.write(gameJSON)
 
 def startGame(game: Game):
@@ -24,7 +25,6 @@ def startGame(game: Game):
 
 
 def _finishMove(game, head, validNext, nextMove, direction):
-    print('finish move after delay' +str(game))
     print("move game: " + game.game.id)
     print("move turn: " + str(game.turn))
     print("move head: " + str(head))
