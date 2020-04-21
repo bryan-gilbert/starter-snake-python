@@ -15,9 +15,13 @@ def moveGame(game: Game):
     board = game.board
     snake = game.you
     head = snake.body[0]
+    print("move head: " + str(head))
     validNext = snake.possibleMoveTiles(board)
+    print("move validNext: " + str(validNext))
     nextMove = board.selectTile(validNext)
+    print("move nextMove: " + str(nextMove))
     direction = directionFromTo(head,nextMove)
+    print("move direction: " + direction)
     return {"move": direction }
 
 
