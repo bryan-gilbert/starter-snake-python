@@ -1,5 +1,8 @@
 import json
-from app.models.models import directionFromTo, Board, Coord, Game, Snake
+from app.models.models import Coord, Game
+from app.models.board import Board
+from app.models.snake import Snake
+
 from jsonData import getBoardJson
 
 def createSnake():
@@ -26,25 +29,25 @@ class TestBoard:
     def test_direction_down(self):
         c1 = Coord(x=5,y=5)
         c2 = Coord(x=c1.x, y=c1.y+1)
-        direction = directionFromTo(c1,c2)
+        direction = Coord.directionFromTo(c1,c2)
         assert direction == 'down'
 
     def test_direction_up(self):
         c1 = Coord(x=5,y=5)
         c2 = Coord(x=c1.x, y=c1.y-1)
-        direction = directionFromTo(c1,c2)
+        direction = Coord.directionFromTo(c1,c2)
         assert direction == 'up'
 
     def test_direction_right(self):
         c1 = Coord(x=5,y=5)
         c2 = Coord(x=c1.x+1, y=c1.y)
-        direction = directionFromTo(c1,c2)
+        direction = Coord.directionFromTo(c1,c2)
         assert direction == 'right'
 
     def test_direction_left(self):
         c1 = Coord(x=5,y=5)
         c2 = Coord(x=c1.x-1, y=c1.y)
-        direction = directionFromTo(c1,c2)
+        direction = Coord.directionFromTo(c1,c2)
         assert direction == 'left'
 
     def test_avoidBodyParts(self):

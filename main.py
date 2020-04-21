@@ -1,14 +1,12 @@
-import json
-import os
+
 from fastapi import Body, FastAPI
 import uvicorn
 
 from app.game.start import startGame
-from app.game.move import moveSimple, moveBest, moveGame
-from app.models.models import Game
+from app.game.move import moveGame
+from app.models.game import Game
 
 app = FastAPI()
-
 
 @app.get('/')
 def index():
@@ -24,15 +22,12 @@ def ping():
     A keep-alive endpoint used to prevent cloud application platforms,
     such as Heroku, from sleeping the application instance.
     """
-    return {"success":"true"}
+    return {"ping":"true"}
 
 
 @app.post('/start')
 def start(data: Game):
     return startGame(data)
-
-#def start(data = Body(...)):
-#    return startGame(data)
 
 @app.post('/move')
 def move(data: Game):
