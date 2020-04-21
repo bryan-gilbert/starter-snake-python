@@ -11,3 +11,5 @@ class Game(BaseModel):
     board: Board
     you: Snake
 
+    def getId(self):
+        return self.game.id

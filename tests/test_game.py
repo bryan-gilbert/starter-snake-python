@@ -1,5 +1,6 @@
 import json
-from app.models.models import Game, Coord
+from app.models.game import Game
+from app.models.coord import Coord
 
 class TestGame:
 

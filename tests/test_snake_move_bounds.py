@@ -1,5 +1,7 @@
 import json
-from app.models.models import Board, Coord, Snake
+from app.models.board import Board
+from app.models.coord import Coord
+from app.models.snake import Snake
 from jsonData import getBoardJson
 
 def createSnake():

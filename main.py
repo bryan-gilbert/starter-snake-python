@@ -2,8 +2,7 @@
 from fastapi import Body, FastAPI
 import uvicorn
 
-from app.game.start import startGame
-from app.game.move import moveGame
+from app.game.game import endGame, moveGame, startGame
 from app.models.game import Game
 
 app = FastAPI()
@@ -11,7 +10,7 @@ app = FastAPI()
 @app.get('/')
 def index():
     return '''
-This is Zombie Snake.
+This is a Zombie Snake.
 Battlesnake documentation can be found at
 <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
 '''
@@ -24,7 +23,6 @@ def ping():
     """
     return {"ping":"true"}
 
-
 @app.post('/start')
 def start(data: Game):
     return startGame(data)
@@ -33,11 +31,9 @@ def start(data: Game):
 def move(data: Game):
     return moveGame(data)
 
-
 @app.post('/end')
-def end(data = Body(...)):
-    print("end data: " + json.dumps(data))
-    return {}
+def end(data: Game):
+    return endGame(data)
 
 # You should use uvicorn to run the app locally.  __main__ is provided to run it in a debugger. See
 # https://fastapi.tiangolo.com/tutorial/debugging/

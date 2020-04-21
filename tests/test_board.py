@@ -1,5 +1,6 @@
 import json
-from app.models.models import Coord, Game
+from app.models.game import  Game
+from app.models.coord import Coord
 from app.models.board import Board
 from app.models.snake import Snake
 
@@ -52,7 +53,7 @@ class TestBoard:
 
     def test_avoidBodyParts(self):
         board = createBoard()
-        expected = [Coord(x=4, y=1), Coord(x=3, y=1), Coord(x=2, y=1), Coord(x=2, y=2), Coord(x=1, y=2), Coord(x=0, y=2), Coord(x=1, y=3), Coord(x=0, y=3), Coord(x=3, y=3), Coord(x=3, y=4), Coord(x=3, y=5), Coord(x=3, y=6), Coord(x=6, y=5), Coord(x=5, y=5), Coord(x=4, y=5)]
+        expected = [Coord(x=4, y=1), Coord(x=3, y=1), Coord(x=2, y=1), Coord(x=2, y=2), Coord(x=1, y=2), Coord(x=0, y=2), Coord(x=1, y=3), Coord(x=0, y=3), Coord(x=3, y=3), Coord(x=3, y=4), Coord(x=3, y=5), Coord(x=3, y=6), Coord(x=3, y=7), Coord(x=6, y=5), Coord(x=5, y=5), Coord(x=4, y=5), Coord(x=4, y=6), Coord(x=4, y=4), Coord(x=4, y=8), Coord(x=1, y=8), Coord(x=1, y=9)]
         avoid = board.getBodyParts()
         print('avoid')
         print(avoid)

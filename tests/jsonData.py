@@ -1,4 +1,14 @@
+from pathlib import Path
+
+filename = Path("tests/sample/board.json")
+file = open(filename, "r")
+json = file.read()
+print(json)
+
 def getBoardJson():
+    return json
+
+def obgetBoardJson():
     return '{\
         "height":11,"width":11,\
         "food":[{ "x":5, "y":1 },{ "x":1, "y":4 },{ "x":0, "y":8 }],\
