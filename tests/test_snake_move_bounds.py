@@ -1,11 +1,10 @@
 import json
 from app.models.models import Board, Coord, Snake
-from jsonData import getBoardJson, getSnakeJson
+from jsonData import getBoardJson
 
 def createSnake():
     """ helper function makes a snake """
-    snakeJSON = getSnakeJson()
-    return Snake(**json.loads(snakeJSON))
+    return Snake(id='id', name='snake', health=100, body=[], shout='')
 
 def createBoard():
     boardJS = getBoardJson()

@@ -1,7 +1,8 @@
 import json
 import random
-
+from timeit import default_timer as timer
 from typing import List
+
 from app.models.models import Game, Coord, directionFromTo
 
 def moveSimple(data):
@@ -10,18 +11,21 @@ def moveSimple(data):
 
 
 def moveGame(game: Game):
-    print("move game: " + game.game.id)
-    print("move turn: " + str(game.turn))
+    start = timer()
     board = game.board
     snake = game.you
     head = snake.body[0]
-    print("move head: " + str(head))
     validNext = snake.possibleMoveTiles(board)
-    print("move validNext: " + str(validNext))
     nextMove = board.selectTile(validNext)
-    print("move nextMove: " + str(nextMove))
     direction = directionFromTo(head,nextMove)
+    print("move game: " + game.game.id)
+    print("move turn: " + str(game.turn))
+    print("move head: " + str(head))
+    print("move next: " + str(validNext))
+    print("move move: " + str(nextMove))
     print("move direction: " + direction)
+    end = timer()
+    print("move time: " + str(end - start)) # Time in seconds
     return {"move": direction }
 
 
