@@ -24,6 +24,34 @@ class TestBoard:
         assert board.inBounds(Coord(x=dim,y=dim+1)) == False
         assert board.inBounds(Coord(x=-1,y=dim)) == False
 
+    def test_direction_down(self):
+        board = createBoard()
+        c1 = Coord(x=5,y=5)
+        c2 = Coord(x=c1.x, y=c1.y+1)
+        direction = board.direction(c1,c2)
+        assert direction == 'down'
+
+    def test_direction_up(self):
+        board = createBoard()
+        c1 = Coord(x=5,y=5)
+        c2 = Coord(x=c1.x, y=c1.y-1)
+        direction = board.direction(c1,c2)
+        assert direction == 'up'
+
+    def test_direction_right(self):
+        board = createBoard()
+        c1 = Coord(x=5,y=5)
+        c2 = Coord(x=c1.x+1, y=c1.y)
+        direction = board.direction(c1,c2)
+        assert direction == 'right'
+
+    def test_direction_left(self):
+        board = createBoard()
+        c1 = Coord(x=5,y=5)
+        c2 = Coord(x=c1.x-1, y=c1.y)
+        direction = board.direction(c1,c2)
+        assert direction == 'left'
+
     def test_avoidBodyParts(self):
         board = createBoard()
         expected = [Coord(x=4, y=1), Coord(x=3, y=1), Coord(x=2, y=1), Coord(x=2, y=2), Coord(x=1, y=2), Coord(x=0, y=2), Coord(x=1, y=3), Coord(x=0, y=3), Coord(x=3, y=3), Coord(x=3, y=4), Coord(x=3, y=5), Coord(x=3, y=6), Coord(x=6, y=5), Coord(x=5, y=5), Coord(x=4, y=5)]
@@ -38,7 +66,7 @@ class TestBoard:
         board = createBoard()
         board.snakes = []
 
-        # first snake is shorter thant middle
+        # create first snake is shorter thant middle
         smaller = createSnake()
         smaller.id='smaller'
         dx = 5
@@ -46,7 +74,7 @@ class TestBoard:
         smaller.body= [Coord(x=dx, y=dy), Coord(x=dx+1, y=dy)]
         board.snakes.append(smaller)
 
-        # target snake
+        # create target snake
         target = createSnake()
         target.id='target'
         dx = 2
@@ -54,7 +82,7 @@ class TestBoard:
         target.body= [Coord(x=dx, y=dy), Coord(x=dx+1, y=dy), Coord(x=dx+2, y=dy)]
         board.snakes.append(target)
 
-        # last snake is same size as target snake and is to be avoided
+        # create last snake is same size as target snake and is to be avoided
         sameSize = createSnake()
         sameSize.id = 'sameSize'
         dx = 7
@@ -144,10 +172,12 @@ class TestSnake:
     def test_nextMove(self):
         board = createBoard()
         snake = board.snakes[1]
-        validNext = snake.validNextTiles(self.board)
-        expected = [Coord(x=1, y=1)]
+        validNext = snake.nextMove(self.board)
+        expected = [Coord(x=2, y=3), Coord(x=3, y=2)]
         print('validNext')
         print(validNext)
         print('expected')
         print(expected)
+        print(snake.shout)
         assert validNext == expected
+        #assert False

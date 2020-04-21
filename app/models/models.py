@@ -46,7 +46,24 @@ class Snake(BaseModel):
 
     def nextMove(self, board):
         possible = self.validNextTiles(board)
-        return possible
+        bodyParts = board.getBodyParts()
+        tentative = []
+        for c in possible:
+            if c not in bodyParts:
+                tentative.append(c)
+        safe = []
+        if len(tentative) > 0:
+            dangerous = board.getDangerZones(self)
+            for c in tentative:
+                if c not in dangerous:
+                    safe.append(c)
+            if len(safe) == 0:
+                safe = tentative
+                self.shout = "Danger is exciting!?"
+        else:
+            safe = possible
+            self.shout = "Brace for impact"
+        return safe
 
 
 class Board(BaseModel):
@@ -54,6 +71,20 @@ class Board(BaseModel):
     width: int
     food: List[Coord]
     snakes: List[Snake]
+
+    def direction(self, c1:Coord, c2:Coord):
+        """ c1 is the "from" tile and c2 is the "to" tile """
+        direction = ''
+        assert c1 != c2
+        if c2.x > c1.x:
+            direction = 'right'
+        elif c2.x < c1.x:
+            direction = 'left'
+        elif c2.y > c1.y:
+            direction = 'down'
+        else:
+            direction = 'up'
+        return direction
 
     def inBounds(self, coord:Coord):
         if coord.x < 0 : return False
