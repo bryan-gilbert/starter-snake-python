@@ -1,6 +1,6 @@
 import json
 from app.models.models import directionFromTo, Board, Coord, Game, Snake
-from jsonData import getGameJson, getBoardJson, getSnakeJson
+from jsonData import getBoardJson, getSnakeJson
 
 def createSnake():
     """ helper function makes a snake """
@@ -20,7 +20,7 @@ class TestBoard:
         assert board.width == dim
         assert board.height == dim
         assert board.inBounds(Coord(x=0,y=0))
-        assert board.inBounds(Coord(x=dim,y=dim))
+        assert board.inBounds(Coord(x=dim-1,y=dim-1))
         assert board.inBounds(Coord(x=dim,y=dim+1)) == False
         assert board.inBounds(Coord(x=-1,y=dim)) == False
 
@@ -95,103 +95,3 @@ class TestBoard:
         print(expected)
         assert avoid == expected
 
-
-class TestGame:
-
-    def test_gameFromJson(self):
-        gameJSON = getGameJson()
-        game = Game(**json.loads(gameJSON))
-        assert game.board.width == 11
-        assert game.you.health == 100
-        assert game.you.body[0] == Coord(x=9, y=1)
-
-
-class TestSnake:
-
-    board = createBoard()
-
-    def test_nextValid_inBoard(self):
-        snake = createSnake()
-        dx = 1
-        dy = 1
-        snake.body = [Coord(x=dx,y=dy), Coord(x=dx,y=dy+1)]
-        validNext = snake.validNextTiles(self.board)
-        print(validNext)
-        assert validNext == [Coord(x=1, y=0), Coord(x=0, y=1), Coord(x=2, y=1)]
-
-    def test_nextValid_origin(self):
-        snake = createSnake()
-        dx = 0
-        dy = 0
-        snake.body = [Coord(x=dx,y=dy), Coord(x=dx,y=dy+1)]
-        validNext = snake.validNextTiles(self.board)
-        print(validNext)
-        assert validNext == [Coord(x=1, y=0)]
-
-    def test_nextValid_farRight(self):
-        snake = createSnake()
-        dx = 11
-        dy = 0
-        snake.body = [Coord(x=dx,y=dy), Coord(x=dx,y=dy+1)]
-        validNext = snake.validNextTiles(self.board)
-        print(validNext)
-        assert validNext == [Coord(x=10, y=0)]
-
-    def test_nextValid_bottomRight(self):
-        snake = createSnake()
-        dx = 11
-        dy = 11
-        snake.body = [Coord(x=dx,y=dy), Coord(x=dx,y=dy-1)]
-        validNext = snake.validNextTiles(self.board)
-        print(validNext)
-        assert validNext == [Coord(x=10, y=11)]
-
-    def test_nextValid_bottomRight2(self):
-        snake = createSnake()
-        dx = 11
-        dy = 11
-        snake.body = [Coord(x=dx,y=dy), Coord(x=dx-1,y=dy)]
-        validNext = snake.validNextTiles(self.board)
-        print(validNext)
-        assert validNext == [Coord(x=11, y=10)]
-
-    def test_nextValid_bottomLeft(self):
-        snake = createSnake()
-        dx = 11
-        dy = 11
-        # body pointing down
-        snake.body = [Coord(x=0,y=dy), Coord(x=0,y=dy-1)]
-        validNext = snake.validNextTiles(self.board)
-        print(validNext)
-        assert validNext == [Coord(x=1, y=dy)]
-
-
-class TestMove:
-
-    def test_possibleMoveTiles(self):
-        board = createBoard()
-        snake = board.snakes[1]
-        validNext = snake.possibleMoveTiles(board)
-        expected = [Coord(x=2, y=3), Coord(x=3, y=2)]
-        print('validNext')
-        print(validNext)
-        print('expected')
-        print(expected)
-        print(snake.shout)
-        assert validNext == expected
-        #assert False
-
-    def test_nextMove(self):
-        board = createBoard()
-        snake = board.snakes[1]
-        validNext = snake.possibleMoveTiles(board)
-        nextMove = board.selectTile(validNext)
-        ## TODO when nextMove improves replace following
-        expected = validNext[0]
-        print('nextMove')
-        print(nextMove)
-        print('expected')
-        print(expected)
-        print(snake.shout)
-        assert nextMove == expected
-        #assert False

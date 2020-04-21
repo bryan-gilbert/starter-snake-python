@@ -75,9 +75,9 @@ class Board(BaseModel):
 
     def inBounds(self, coord:Coord):
         if coord.x < 0 : return False
-        if coord.x > self.width : return False
+        if coord.x > self.width-1 : return False
         if coord.y < 0 : return False
-        if coord.y > self.height : return False
+        if coord.y > self.height-1 : return False
         return True
 
     def getBodyParts(self):
