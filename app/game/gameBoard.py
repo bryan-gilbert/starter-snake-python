@@ -93,7 +93,8 @@ class SnakeBody:
         self.body = body
         self.direction = direction
         self.index = parent.index
-        self.headValue = 0
+        self.headScore = 0              # computed score for this snake's head
+        self.shout = ''
         self.length = len(body)
         self.justAte = food
         self.parent = parent
@@ -101,6 +102,27 @@ class SnakeBody:
 
     def getHead(self):
         return self.body[0]
+
+    def getHeadScore(self, board):
+        h = self.getHead()
+        v = Tile.get(h, board)
+        dangerCount = v.count(BIG)
+        preyCount = v.count(SMALL)
+        foodCount = v.count(FOOD)
+        if dangerCount > 0:
+            self.headScore = -1
+            self.shout = 'Danger'
+        elif foodCount > 0:
+            self.headScore = 3
+            self.shout = 'Food'
+        elif preyCount > 0:
+            self.headScore = 2
+            self.shout = 'Attack'
+        else:
+            self.headScore = 1
+            self.shout = 'Go for it'
+        return self.headScore
+
 
     def addSnakeToMatrix(self, bodyMatrix):
         body = self.body.copy()
@@ -173,23 +195,17 @@ class GameSnake:
 
     def chooseMove(self, board):
         if len(self.timeOneSnakes) == 0:
-            return 'up'
-        mv = -99
+            return ('up','Brace for impact')
+
+        maxScore = -99
+        bestSnake = None
         for s in self.timeOneSnakes:
-            h = s.getHead()
-            v = Tile.get(h, board)
-            s.headValue = v
-            #mv = max(v, mv)
-            print('index, head, value: ', self.index, h, v)
-        print('best value is ', mv)
-        okMoves = []
-        #for s in self.timeOneSnakes:
-        #    if s.headValue == mv:
-        #        okMoves.append(s.direction)
-        #print('this way is ok', okMoves)
-        #self.move = random.choice(okMoves)
-        #return self.move
-        return 'up'
+            score = s.getHeadScore(board)
+            print('t1snake',s, score)
+            if score > maxScore:
+                maxScore = score
+                bestSnake = s
+        return (bestSnake.direction,bestSnake.shout)
 
 class GameBoard:
     def __init__(self, data: Game):

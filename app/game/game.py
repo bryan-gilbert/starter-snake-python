@@ -55,20 +55,20 @@ def startGame(game: Game):
     return response
 
 
-def _finishMove(game, gameBoard, direction):
+def _finishMove(game, gameBoard, move):
     print("move game: " + game.game.id)
     print("move turn: " + str(game.turn))
-    print("move direction: " + direction)
+    print("move move: ",  move)
     _storeGameStep(game, gameBoard)
 
 def moveGame(game: Game):
     start = timer()
     gameBoard = TheGame(game)
-    direction = gameBoard.getMove()
+    move = gameBoard.getMove()
     end = timer()
     print("move time: " + str(end - start)) # Time in seconds
-    Timer(0.1, _finishMove, [game, gameBoard, direction]).start()
-    return {"move": direction }
+    Timer(0.1, _finishMove, [game, gameBoard, move]).start()
+    return {"move": move[0], "shout": move[1] }
 
 def old():
     board = game.board
