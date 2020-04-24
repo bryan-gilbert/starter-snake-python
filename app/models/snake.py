@@ -12,7 +12,7 @@ class Snake(BaseModel):
     def length(self):
         return len(self.body)
 
-    def validNextTiles(self, board):
+    def possibleNextHeads(self, board):
         """ Provides list of valid next move coordinates for this snake.
         Excludes coordinates that our out of bounds.
         Excludes coordinates that are in this snakes body.
@@ -23,23 +23,19 @@ class Snake(BaseModel):
         head = body[0]
         body = body[1] if len(body) > 1 else None
         isValid = lambda coord : body != coord and board.inBounds(coord)
-        validCoords: List[Coord] = []
-        # up
-        coord = Coord(x = head.x, y = head.y -1)
-        if isValid(coord) : validCoords.append(coord)
-        # down
-        coord = Coord(x = head.x, y = head.y + 1)
-        if isValid(coord) : validCoords.append(coord)
-        # left
-        coord = Coord(x = head.x - 1, y = head.y)
-        if isValid(coord) : validCoords.append(coord)
-        # right
-        coord = Coord(x = head.x + 1, y = head.y)
-        if isValid(coord) : validCoords.append(coord)
-        return validCoords
+        possibleHeads: List[Coord] = []
+        coord = Coord.up(head)
+        if isValid(coord) : possibleHeads.append(coord)
+        coord = Coord.down(head)
+        if isValid(coord) : possibleHeads.append(coord)
+        coord = Coord.left(head)
+        if isValid(coord) : possibleHeads.append(coord)
+        coord = Coord.right(head)
+        if isValid(coord) : possibleHeads.append(coord)
+        return possibleHeads
 
     def possibleMoveTiles(self, board):
-        possible = self.validNextTiles(board)
+        possible = self.possibleNextHeads(board)
         bodyParts = board.getBodyParts()
         tentative = []
         for c in possible:

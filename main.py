@@ -4,6 +4,8 @@ import uvicorn
 
 from app.game.game import endGame, moveGame, startGame, getGame
 from app.models.game import Game
+from app.config.config import redisConnection
+
 
 app = FastAPI()
 

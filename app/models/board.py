@@ -40,7 +40,7 @@ class Board(BaseModel):
         for i in range(num_snakes):
             aSnake = snakes[i]
             if aSnake.id != forSnake.id and aSnake.length() >= forSnake.length() :
-                nextTiles = aSnake.validNextTiles(self)
+                nextTiles = aSnake.possibleNextHeads(self)
                 avoid += nextTiles
         return avoid
 

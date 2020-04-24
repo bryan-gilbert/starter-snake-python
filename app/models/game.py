@@ -13,3 +13,6 @@ class Game(BaseModel):
 
     def getId(self):
         return self.game.id
+
+    def setup(self):
+        self.board.setup()

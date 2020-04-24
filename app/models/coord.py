@@ -18,3 +18,20 @@ class Coord(BaseModel):
         else:
             direction = 'up'
         return direction
+
+    @classmethod
+    def up(cls, c: 'Coord'):
+        return Coord(x = c.x, y = c.y - 1)
+
+    @classmethod
+    def down(cls, c: 'Coord'):
+        return Coord(x = c.x, y = c.y + 1)
+
+    @classmethod
+    def left(cls, c: 'Coord'):
+        return Coord(x = c.x - 1, y = c.y)
+
+    @classmethod
+    def right(cls, c: 'Coord'):
+        return Coord(x = c.x + 1, y = c.y)
+

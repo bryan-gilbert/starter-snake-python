@@ -89,7 +89,7 @@ class TestBoard:
         sameSize.body= [Coord(x=dx, y=dy), Coord(x=dx, y=dy+1), Coord(x=dx, y=dy+2)]
         board.snakes.append(sameSize)
 
-        expected = sameSize.validNextTiles(board)
+        expected = sameSize.possibleNextHeads(board)
 
         avoid = board.getDangerZones(target)
         print('avoid')

@@ -23,7 +23,7 @@ class TestSnakeMoveBounds:
         dx = 1
         dy = 1
         snake.body = [Coord(x=dx,y=dy), Coord(x=dx,y=dy+1)]
-        validNext = snake.validNextTiles(self.board)
+        validNext = snake.possibleNextHeads(self.board)
         print(validNext)
         assert validNext == [Coord(x=dx, y=dy-1), Coord(x=dx-1, y=dy), Coord(x=dx+1, y=dy)]
 
@@ -33,7 +33,7 @@ class TestSnakeMoveBounds:
         dy = 0
         # body pointing up at top left corner of board
         snake.body = [Coord(x=dx,y=dy), Coord(x=dx,y=dy+1)]
-        validNext = snake.validNextTiles(self.board)
+        validNext = snake.possibleNextHeads(self.board)
         print(snake.body)
         print(validNext)
         assert validNext == [Coord(x=dx+1, y=dy)]
@@ -44,7 +44,7 @@ class TestSnakeMoveBounds:
         dy = 0
         # body pointing left at top left corner of board
         snake.body = [Coord(x=dx,y=dy), Coord(x=dx+1,y=dy)]
-        validNext = snake.validNextTiles(self.board)
+        validNext = snake.possibleNextHeads(self.board)
         print(snake.body)
         print(validNext)
         assert validNext == [Coord(x=dx, y=dy+1)]
@@ -55,7 +55,7 @@ class TestSnakeMoveBounds:
         dy = 0
         # body pointing up right at top right corner of board
         snake.body = [Coord(x=dx,y=dy), Coord(x=dx,y=dy+1)]
-        validNext = snake.validNextTiles(self.board)
+        validNext = snake.possibleNextHeads(self.board)
         print(snake.body)
         print(validNext)
         assert validNext == [Coord(x=dx-1, y=dy)]
@@ -66,7 +66,7 @@ class TestSnakeMoveBounds:
         dy = 0
         # body pointing right at top right corner of board
         snake.body = [Coord(x=dx,y=dy), Coord(x=dx-1,y=dy)]
-        validNext = snake.validNextTiles(self.board)
+        validNext = snake.possibleNextHeads(self.board)
         print(snake.body)
         print(validNext)
         assert validNext == [Coord(x=dx, y=dy+1)]
@@ -77,7 +77,7 @@ class TestSnakeMoveBounds:
         dy = self.maxY
         # body pointing left at bottom left corner of board
         snake.body = [Coord(x=dx,y=dy), Coord(x=dx+1,y=dy)]
-        validNext = snake.validNextTiles(self.board)
+        validNext = snake.possibleNextHeads(self.board)
         print(snake.body)
         print(validNext)
         assert validNext == [Coord(x=dx, y=dy-1)]
@@ -88,7 +88,7 @@ class TestSnakeMoveBounds:
         dy = self.maxY
         # body pointing down at bottom left corner of board
         snake.body = [Coord(x=dx,y=dy), Coord(x=dx,y=dy-1)]
-        validNext = snake.validNextTiles(self.board)
+        validNext = snake.possibleNextHeads(self.board)
         print(snake.body)
         print(validNext)
         assert validNext == [Coord(x=dx+1, y=dy)]
@@ -99,7 +99,7 @@ class TestSnakeMoveBounds:
         dy = self.maxY
         # body pointing right at bottom right corner of board
         snake.body = [Coord(x=dx,y=dy), Coord(x=dx-1,y=dy)]
-        validNext = snake.validNextTiles(self.board)
+        validNext = snake.possibleNextHeads(self.board)
         print(snake.body)
         print(validNext)
         assert validNext == [Coord(x=dx, y=dy-1)]
@@ -110,7 +110,7 @@ class TestSnakeMoveBounds:
         dy = self.maxY
         # body pointing down at bottom right corner of board
         snake.body = [Coord(x=dx,y=dy), Coord(x=dx,y=dy-1)]
-        validNext = snake.validNextTiles(self.board)
+        validNext = snake.possibleNextHeads(self.board)
         print(snake.body)
         print(validNext)
         assert validNext == [Coord(x=dx-1, y=dy)]
