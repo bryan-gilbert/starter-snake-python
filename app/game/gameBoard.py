@@ -6,6 +6,26 @@ from app.models.snake import Snake
 from app.models.board import Board
 from app.models.game import Game
 
+TILE_SIZE = 10
+EMPTY = '.' * TILE_SIZE
+np.set_printoptions(linewidth=400)
+
+HEAD = 'h'
+TAIL = '-'
+BODY = 'B'
+FOOD = 'F'
+BIG = 'd'
+SMALL = 'p'
+ME = '*'
+
+UP = '^'
+DWN = 'v'
+LF = '>'
+RH = '<'
+
+
+MY_SNAKE_INDEX = ME
+
 def directionFromTo(c1: Coord, c2: Coord):
     """ c1 is the "from" tile and c2 is the "to" tile """
     direction = ''
@@ -18,6 +38,24 @@ def directionFromTo(c1: Coord, c2: Coord):
         direction = 'down'
     else:
         direction = 'up'
+    return direction
+
+def headSymbol(body):
+    # body is a list of coordinates with
+    if len(body) < 2:
+        return 'H'
+    c2 = body[0]
+    c1 = body[1]
+    direction = ''
+    assert c1 != c2
+    if c2.x > c1.x:
+        direction = '>'
+    elif c2.x < c1.x:
+        direction = '<'
+    elif c2.y > c1.y:
+        direction = 'v'
+    else:
+        direction = '^'
     return direction
 
 class Bounds:
@@ -43,7 +81,7 @@ class Bounds:
 class Tile:
     @classmethod
     def map(cls, c:Coord, matrix, val):
-        matrix[c.y, c.x] = val
+        matrix[c.y, c.x] = '{:^{TILE_SIZE}}'.format(val, TILE_SIZE=TILE_SIZE)
 
     @classmethod
     def get(cls, c:Coord, matrix):
@@ -64,33 +102,32 @@ class SnakeBody:
     def getHead(self):
         return self.body[0]
 
-    def addSnakeToMatrix(self, bodyMatrix, removeTail):
-        cnt = 0
+    def addSnakeToMatrix(self, bodyMatrix):
         body = self.body.copy()
-        if removeTail and len(body) >= 3:
-            body.pop()
-        for c in body:
-            v = self.index
-            if cnt == 0:
-                v = -1
+        tailCnt = len(body) - 1
+        for cnt, c in enumerate(body):
+            index = self.index
+            v = index + BODY
+            if cnt == tailCnt:
+                v = index + TAIL
+            elif cnt == 0:
+                v = index + HEAD + headSymbol(body)
                 if self.step > 0:
                     if self.parent.isDangerous:
-                        v = -10
-                    else:
-                        v = 1
+                        v = index + BIG + headSymbol(body)
+                    elif self.parent.isPrey:
+                        v = index + SMALL + headSymbol(body)
             prev = Tile.get(c, bodyMatrix)
-            if prev != 0:
-                # print('c has previous', c, prev)
-                v = v + prev
+            if prev != EMPTY and index not in prev:
+                #print('c has previous', c, prev)
+                v = v + prev.strip()
             Tile.map(c, bodyMatrix, v)
-            cnt = cnt + 1
         return bodyMatrix
 
     def __str__(self):
         ate = 'food' if self.justAte else ''
         return str('sb: {} {:<6} {:<6} body{}'.format(str(self.index), self.direction, ate, str(self.body)))
 
-MY_SNAKE_INDEX = 1
 
 class GameSnake:
     def __init__(self, index, data, bounds, refLen):
@@ -105,14 +142,15 @@ class GameSnake:
         self.isDangerous = True if not self.isMySnake and self.length >= refLen else False
         self.isPrey = True if not self.isMySnake and self.length < refLen else False
 
-    def setupPossibleMoves(self, stepNumber, foodBoard, initialBoard):
+    def setupPossibleMoves(self, stepNumber, initialBoard):
         nextSnakes = []
         currentBody = self.step0
         head = currentBody.getHead()
         body = currentBody.body
         newHeads = []  # collect places to go that are legal and not occupied by any snake body part
         for newHead in self.bounds.getFourLegalPoints(head):
-            if Tile.get(newHead, initialBoard) == 0: # space is not occupied by a body part
+            ct = Tile.get(newHead, initialBoard)
+            if TAIL in ct or FOOD in ct or EMPTY in ct: # space is not occupied by a body part
                 newHeads.append(newHead)
         if len(newHeads) < 1:
             print("No where to go for this snake", self)
@@ -120,18 +158,18 @@ class GameSnake:
 
         for newHead in newHeads:
             dir = directionFromTo(head, newHead)
-            food = Tile.get(newHead, foodBoard) != 0
+            food = FOOD in Tile.get(newHead, initialBoard)
             t1Body = [newHead] + body
             if len(t1Body) > 3:
                 t1Body.pop()
             t1 = SnakeBody(stepNumber, self, t1Body, food, dir)
             nextSnakes.append(t1)
-            print('add t1 snake:', t1)
+            #print('add t1 snake:', t1)
         self.timeOneSnakes = nextSnakes
 
     def addTimeOneSnakesToBoard(self, board):
         for s in self.timeOneSnakes:
-            s.addSnakeToMatrix(board, False)
+            s.addSnakeToMatrix(board)
 
     def chooseMove(self, board):
         if len(self.timeOneSnakes) == 0:
@@ -141,16 +179,17 @@ class GameSnake:
             h = s.getHead()
             v = Tile.get(h, board)
             s.headValue = v
-            mv = max(v, mv)
+            #mv = max(v, mv)
             print('index, head, value: ', self.index, h, v)
         print('best value is ', mv)
         okMoves = []
-        for s in self.timeOneSnakes:
-            if s.headValue == mv:
-                okMoves.append(s.direction)
-        print('this way is ok', okMoves)
-        self.move = random.choice(okMoves)
-        return self.move
+        #for s in self.timeOneSnakes:
+        #    if s.headValue == mv:
+        #        okMoves.append(s.direction)
+        #print('this way is ok', okMoves)
+        #self.move = random.choice(okMoves)
+        #return self.move
+        return 'up'
 
 class GameBoard:
     def __init__(self, data: Game):
@@ -160,50 +199,38 @@ class GameBoard:
         self.bounds = Bounds(self.w, self.h)
 
         # Create a empty board
-        col = [0] * self.h
+        col = [EMPTY] * self.h
         self.board = np.array( [col] * self.w )
 
-        foodBoard = self.board.copy()
         for c in data.board.food:
-            Tile.map(c, foodBoard, 11)
-
-        print('Food board:')
-        print(foodBoard)
+            Tile.map(c, self.board, 'F')
 
         # Set up the snakes
         # Index is just for dev and has no meaning. 1 is my snake. The rest start at 2
-        index = MY_SNAKE_INDEX
 
-        self.mySnake = GameSnake(index, self.data.you, self.bounds, 0)
-        index = index + 1
+        self.mySnake = GameSnake(MY_SNAKE_INDEX, self.data.you, self.bounds, 0)
+        index = 1
 
         self.others = []
         for snake in self.data.board.snakes:
             if snake.id != self.mySnake.id:
-                self.others.append(GameSnake(index, snake, self.bounds, self.mySnake.length))
+                self.others.append(GameSnake(str(index), snake, self.bounds, self.mySnake.length))
                 index = index + 1
 
         # Now combine all the snakes onto a board
         bodyParts = self.emptyBoard()
-        self.mySnake.step0.addSnakeToMatrix(bodyParts, False)
+        self.mySnake.step0.addSnakeToMatrix(bodyParts)
         for snake in self.others:
-            snake.step0.addSnakeToMatrix(bodyParts, False)
+            snake.step0.addSnakeToMatrix(bodyParts)
         print('Initial board:')
         print(bodyParts)
 
-        # Now combine all the snakes onto a board
-        step1BodyParts = self.emptyBoard()
-        self.mySnake.step0.addSnakeToMatrix(step1BodyParts, True)
-        for snake in self.others:
-            snake.step0.addSnakeToMatrix(step1BodyParts, True)
-        print('Step 1 body parts (no tails no new heads yet) board:')
-        print(step1BodyParts)
-
         # next move
         step = 1
-        self.mySnake.setupPossibleMoves(step, foodBoard, step1BodyParts)
+        step1BodyParts = bodyParts
+        self.mySnake.setupPossibleMoves(step, step1BodyParts)
         for snake in self.others:
-            snake.setupPossibleMoves(step, foodBoard, step1BodyParts)
+            snake.setupPossibleMoves(step, step1BodyParts)
 
         # Now combine all the possible next move snakes onto a board
         moveOneBoard = self.emptyBoard()
@@ -215,43 +242,5 @@ class GameBoard:
 
         self.theMove = self.mySnake.chooseMove(moveOneBoard)
 
-    def getReport(self):
-        
-
-    def dosome():
-        # Next determine how my snake should move. Look for adjacent free space
-        for step1Snake in self.mySnake.timeOneSnakes:
-            h = step1Snake.getHead()
-            hcnt = 0
-            fourPoints = self.bounds.getFourLegalPoints(h)
-            for p in fourPoints:
-                if Tile.get(p, step1Parts) == 0:
-                    hcnt += 1
-                    print(step1Snake.index, 'head:', h, 'adj:', p, 'free', step1Snake.body)
-            print(step1Snake.index, 'head:', h, hcnt, 'free', step1Snake.body)
-
-
-        # Next determine how the snakes should move. Look for adjacent free space
-        for snake in self.others:
-            for step1Snake in snake.timeOneSnakes:
-                h = step1Snake.getHead()
-                hcnt = 0
-                fourPoints = self.bounds.getFourLegalPoints(h)
-                for p in fourPoints:
-                    if Tile.get(p, step1Parts) == 0:
-                        hcnt += 1
-                        #print(step1Snake.index, 'head:', h, 'adj:', p, 'free')
-                #print(step1Snake.index, 'head:', h, hcnt, 'free')
-
-        # draft wip
-        for y, col in enumerate(step1Parts):
-            for x, v in enumerate(col):
-                if v < 0:
-                    fourPoints = self.bounds.getFourLegalPoints(Coord(x=x,y=y))
-                    for p in fourPoints:
-                        if Tile.get(p, step1Parts) == 0:
-                            #print(x, y, 'free')
-                            pass
     def emptyBoard(self):
         return self.board.copy()
-
