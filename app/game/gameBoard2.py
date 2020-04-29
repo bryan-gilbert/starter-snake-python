@@ -17,24 +17,40 @@ class GameBoard:
         height = data.board.height
         snakeCount = len(data.board.snakes)
         board = Board(width, height, snakeCount)
+
+        # load the food into the board
         for c in data.board.food:
             board.set(c.x, c.y, 0, 'F')
-        snakes = []
-        for i, sData in enumerate(data.board.snakes):
+
+        def _createSnake(snakeData, index):
             bodyPoints = []
-            for c in sData.body:
+            for c in snakeData.body:
                 bodyPoints.append( (c.x, c.y) )
-            if verbose:
-                print(bodyPoints)
-            snake = GameSnake(sData.id, i+1, bodyPoints)
-            snake.addBodyToBoard(board)
+            snake = GameSnake(snakeData.id, index, bodyPoints)
+            return snake
+
+        # find my snake and collect the rest into a list
+        dataSnakes = []
+        mySnakeId = data.you.id
+        indices = [i for i, s in enumerate(data.board.snakes) if s.id == mySnakeId]
+        mySnakeIndex = indices[0]
+        dataSnakes.append(data.board.snakes.pop(indices[0]))
+        dataSnakes.extend(data.board.snakes)
+
+        # create the data snakes
+        snakes = []
+        for i, sData in enumerate(dataSnakes):
+            snake = _createSnake(sData, i+1)
             snakes.append(snake)
+
+        for snake in snakes:
+            snake.addBodyToBoard(board)
         print(board)
+
         for snake in snakes:
             snake.floodHead(board, limit)
-
+            
         mySnake = snakes[0]
-
         mySnake.analyze(board, snakes)
         move = mySnake.move
         shout = mySnake.move
