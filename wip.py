@@ -1,8 +1,8 @@
 from app.models.coord import Coord
 
-from app.game.v3.board import Board, EMPTY
-from app.game.v3.gameSnake import GameSnake, directionFromTo
-from app.game.v3.gameBoard import GameBoard
+from app.game.board import Board, EMPTY
+from app.game.gameSnake import GameSnake, directionFromTo
+from app.game.gameBoard2 import GameBoard
 
 width = 11
 height = 11
