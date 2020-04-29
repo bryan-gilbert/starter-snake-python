@@ -30,7 +30,7 @@ def startGame(game: Game):
     print('start with game', game)
     _storeGameStep(game)
     headType = 'evil'
-    tailType = 'flecked'
+    tailType = 'freckled'
     color = "#add8e6"
     response = {"color": color, "headType": headType, "tailType": tailType}
     return response
