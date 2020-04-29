@@ -28,7 +28,7 @@ def startGame(game: Game):
     print("start game: " + game.game.id)
     print("start turn: " + str(game.turn))
     print('start with game', game)
-    _storeGameStep(game)
+    #_storeGameStep(game)
     headType = 'evil'
     tailType = 'freckled'
     color = "#add8e6"
@@ -56,5 +56,5 @@ def endGame(game: Game):
     print("end game: " + game.game.id)
     print("end turn: " + str(game.turn))
     print('end with game', game)
-    _storeGameStep(game)
+    #_storeGameStep(game)
     return {}
