@@ -1,0 +1,130 @@
+{
+  "game": {
+    "id": "ae074f97-6811-495c-b167-f4beb397342a"
+  },
+  "turn": 1,
+  "board": {
+    "height": 11,
+    "width": 11,
+    "food": [
+      {
+        "x": 8,
+        "y": 6
+      },
+      {
+        "x": 4,
+        "y": 9
+      },
+      {
+        "x": 7,
+        "y": 6
+      },
+      {
+        "x": 3,
+        "y": 8
+      }
+    ],
+    "snakes": [
+      {
+        "id": "gs_MFBddpX7KYSk79xkF4CXmww3",
+        "name": "Zombie Snake",
+        "health": 99,
+        "body": [
+          {
+            "x": 9,
+            "y": 4
+          },
+          {
+            "x": 9,
+            "y": 5
+          },
+          {
+            "x": 9,
+            "y": 5
+          }
+        ],
+        "shout": "Go for it"
+      },
+      {
+        "id": "gs_bpGYxpKhR3P3T4fMy9JxPr3R",
+        "name": "Waypple_Snake",
+        "health": 99,
+        "body": [
+          {
+            "x": 5,
+            "y": 2
+          },
+          {
+            "x": 5,
+            "y": 1
+          },
+          {
+            "x": 5,
+            "y": 1
+          }
+        ],
+        "shout": ""
+      },
+      {
+        "id": "gs_pdmbJ7bfGHKBRPBdp8bXjqdC",
+        "name": "Nadir",
+        "health": 99,
+        "body": [
+          {
+            "x": 8,
+            "y": 9
+          },
+          {
+            "x": 9,
+            "y": 9
+          },
+          {
+            "x": 9,
+            "y": 9
+          }
+        ],
+        "shout": ""
+      },
+      {
+        "id": "gs_bmTYpbY9VTBvJrt3xPbXpGgc",
+        "name": "spaghettisauce",
+        "health": 99,
+        "body": [
+          {
+            "x": 5,
+            "y": 8
+          },
+          {
+            "x": 5,
+            "y": 9
+          },
+          {
+            "x": 5,
+            "y": 9
+          }
+        ],
+        "shout": ""
+      }
+    ]
+  },
+  "you": {
+    "id": "gs_MFBddpX7KYSk79xkF4CXmww3",
+    "name": "Zombie Snake",
+    "health": 99,
+    "body": [
+      {
+        "x": 9,
+        "y": 4
+      },
+      {
+        "x": 9,
+        "y": 5
+      },
+      {
+        "x": 9,
+        "y": 5
+      }
+    ],
+    "shout": "Go for it"
+  }
+}
