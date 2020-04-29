@@ -9,7 +9,7 @@ from app.game.gameBoard2 import GameBoard
 
 gameStore = {}
 
-def _storeGameStep(game: Game, gameBoard: GameBoard):
+def _storeGameStep(game: Game):
     id = game.getId()
     str = json.dumps(game.dict())
     try:
@@ -25,6 +25,8 @@ def getGame(id):
     return data
 
 def startGame(game: Game):
+    print("start game: " + game.game.id)
+    print("start turn: " + str(game.turn))
     print('start with game', game)
     _storeGameStep(game)
     headType = 'evil'
@@ -34,12 +36,8 @@ def startGame(game: Game):
     return response
 
 
-def _finishMove(game, gameBoard = None, move = '', elapsedTime = 0):
-    print("store game: " + game.game.id)
-    print("store turn: " + str(game.turn))
-    print("store move: ",  move)
-    print("store time: ",  elapsedTime)
-    _storeGameStep(game, gameBoard)
+def _finishMove(game, move = '', elapsedTime = 0):
+    _storeGameStep(game)
 
 def moveGame(game: Game):
     start = timer()
@@ -47,12 +45,16 @@ def moveGame(game: Game):
     move = board.theMove
     end = timer()
     elapsedTime = end - start
+    print("move game: " + game.game.id)
+    print("move turn: " + str(game.turn))
     print("move time: " + str(elapsedTime)) # Time in seconds
     print("move results", move)
-    #Timer(0.1, _finishMove, [game, gameBoard, move, elapsedTime]).start()
+    #Timer(0.1, _finishMove, [game, move, elapsedTime]).start()
     return {"move": move[0], "shout": move[1] }
 
 def endGame(game: Game):
+    print("end game: " + game.game.id)
+    print("end turn: " + str(game.turn))
     print('end with game', game)
-    #_storeGameStep(game)
+    _storeGameStep(game)
     return {}
