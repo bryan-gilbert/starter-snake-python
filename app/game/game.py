@@ -1,3 +1,4 @@
+import json
 from timeit import default_timer as timer
 from threading import Timer
 
@@ -29,9 +30,9 @@ def startGame(game: Game):
     print("start turn: " + str(game.turn))
     print('start with game', game)
     #_storeGameStep(game)
-    headType = 'shac-caffeine' # 'smile'
+    headType = 'shac-caffeine'  # 'smile'
     tailType = 'freckled'
-    color = "#add8e6"
+    color = "#e26d30"            # "#add8e6"
     response = {"color": color, "headType": headType, "tailType": tailType}
     return response
 
@@ -49,7 +50,7 @@ def moveGame(game: Game):
     print("move turn: " + str(game.turn))
     print("move time: " + str(elapsedTime)) # Time in seconds
     print("move results", move)
-    #Timer(0.1, _finishMove, [game, move, elapsedTime]).start()
+    Timer(0.1, _finishMove, [game, move, elapsedTime]).start()
     return {"move": move[0], "shout": move[1] }
 
 def endGame(game: Game):
