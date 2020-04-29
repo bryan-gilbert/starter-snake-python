@@ -5,8 +5,8 @@ np.set_printoptions(linewidth=400)
 from app.models.coord import Coord
 from app.models.game import Game
 
-from app.game.v3.board import Board
-from app.game.v3.gameSnake import GameSnake, directionFromTo
+from app.game.board import Board
+from app.game.gameSnake import GameSnake, directionFromTo
 
 class GameBoard:
     def __init__(self, data: Game):

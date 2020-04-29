@@ -1,5 +1,3 @@
-import json
-from pathlib import Path
 from timeit import default_timer as timer
 from threading import Timer
 
@@ -8,27 +6,8 @@ from app.models.game import Game
 from app.models.coord import Coord
 from app.game.gameBoard import GameBoard
 
-from app.game.gameBoard import GameBoard
-
-class TheGame:
-    def __init__(self, game: Game):
-        self.board = GameBoard(game)
-
-    def getMove(self):
-        return self.board.theMove
-
 
 gameStore = {}
-
-def _storeGameStepOld(game: Game):
-    id = game.getId()
-    if not id in gameStore:
-        gameStore[id] = []
-    list = gameStore[id]
-    if not list:
-        gameStore[id] = []
-        list = gameStore[id]
-    list.append(game)
 
 def _storeGameStep(game: Game, gameBoard: GameBoard):
     id = game.getId()
@@ -64,11 +43,12 @@ def _finishMove(game, gameBoard = None, move = '', elapsedTime = 0):
 
 def moveGame(game: Game):
     start = timer()
-    gameBoard = TheGame(game)
-    move = gameBoard.getMove()
+    board = GameBoard(game)
+    move = board.theMove
     end = timer()
     elapsedTime = end - start
     print("move time: " + str(elapsedTime)) # Time in seconds
+    print("move results", move)
     #Timer(0.1, _finishMove, [game, gameBoard, move, elapsedTime]).start()
     return {"move": move[0], "shout": move[1] }
 
