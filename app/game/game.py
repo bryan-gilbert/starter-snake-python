@@ -55,10 +55,11 @@ def startGame(game: Game):
     return response
 
 
-def _finishMove(game, gameBoard, move):
-    print("move game: " + game.game.id)
-    print("move turn: " + str(game.turn))
-    print("move move: ",  move)
+def _finishMove(game, gameBoard = None, move = '', elapsedTime = 0):
+    print("store game: " + game.game.id)
+    print("store turn: " + str(game.turn))
+    print("store move: ",  move)
+    print("store time: ",  elapsedTime)
     _storeGameStep(game, gameBoard)
 
 def moveGame(game: Game):
@@ -66,21 +67,10 @@ def moveGame(game: Game):
     gameBoard = TheGame(game)
     move = gameBoard.getMove()
     end = timer()
-    print("move time: " + str(end - start)) # Time in seconds
-    Timer(0.1, _finishMove, [game, gameBoard, move]).start()
+    elapsedTime = end - start
+    print("move time: " + str(elapsedTime)) # Time in seconds
+    Timer(0.1, _finishMove, [game, gameBoard, move, elapsedTime]).start()
     return {"move": move[0], "shout": move[1] }
-
-def old():
-    board = game.board
-    snake = game.you
-    head = snake.body[0]
-    validNext = snake.possibleMoveTiles(board)
-    nextMove = board.selectTile(validNext)
-    direction = Coord.directionFromTo(head,nextMove)
-    end = timer()
-    print("move time: " + str(end - start)) # Time in seconds
-    Timer(0.1, _finishMove, [game, head, validNext, nextMove, direction]).start()
-    return {"move": direction }
 
 def endGame(game: Game):
     print('end with game', game)
