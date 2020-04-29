@@ -29,8 +29,8 @@ def startGame(game: Game):
     print("start turn: " + str(game.turn))
     print('start with game', game)
     #_storeGameStep(game)
-    headType = 'evil'
-    tailType = 'flecked'
+    headType = 'shac-caffeine' # 'smile'
+    tailType = 'freckled'
     color = "#add8e6"
     response = {"color": color, "headType": headType, "tailType": tailType}
     return response
