@@ -1,0 +1,82 @@
+{
+  "game": {
+    "id": "d5d1af03-7517-4fb6-aed8-277a81227370"
+  },
+  "turn": 2,
+  "board": {
+    "height": 11,
+    "width": 11,
+    "food": [
+      {
+        "x": 7,
+        "y": 1
+      },
+      {
+        "x": 5,
+        "y": 3
+      }
+    ],
+    "snakes": [
+      {
+        "id": "gs_YQyGMQgmxBWkC4cbHR9qCwSJ",
+        "name": "serprintine*",
+        "health": 98,
+        "body": [
+          {
+            "x": 9,
+            "y": 7
+          },
+          {
+            "x": 9,
+            "y": 8
+          },
+          {
+            "x": 9,
+            "y": 9
+          }
+        ],
+        "shout": ""
+      },
+      {
+        "id": "gs_8k99yfxjp67KXYJSYrpxD7BS",
+        "name": "Zombie Snake",
+        "health": 98,
+        "body": [
+          {
+            "x": 0,
+            "y": 0
+          },
+          {
+            "x": 1,
+            "y": 0
+          },
+          {
+            "x": 1,
+            "y": 1
+          }
+        ],
+        "shout": "left"
+      }
+    ]
+  },
+  "you": {
+    "id": "gs_8k99yfxjp67KXYJSYrpxD7BS",
+    "name": "Zombie Snake",
+    "health": 98,
+    "body": [
+      {
+        "x": 0,
+        "y": 0
+      },
+      {
+        "x": 1,
+        "y": 0
+      },
+      {
+        "x": 1,
+        "y": 1
+      }
+    ],
+    "shout": "left"
+  }
+}

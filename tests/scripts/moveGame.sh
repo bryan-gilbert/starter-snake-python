@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-echo -n "Pick game 1 or 2 or 3: "
+echo -n "Pick game 1, 2, 3, 4: "
 read gm
 case $gm in
 
@@ -16,6 +16,11 @@ case $gm in
     [3] )
         curl -XPOST -H 'Content-Type: application/json' -d @tests/sample/game3.json http://localhost:8000/move
         ;;
+
+    [4] )
+        curl -XPOST -H 'Content-Type: application/json' -d @tests/sample/game4.json http://localhost:8000/move
+        ;;
+
 
     *) echo "Invalid input"
         ;;
