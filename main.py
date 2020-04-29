@@ -1,5 +1,5 @@
 
-from fastapi import Body, FastAPI
+from fastapi import FastAPI, Request
 import uvicorn
 
 from app.game.game import endGame, moveGame, startGame, getGame
@@ -26,22 +26,24 @@ def ping():
     return {"ping":"true"}
 
 @app.post('/start')
-def start(data: Game):
-    return startGame(data)
+async def start(data: Game, request: Request):
+    raw = await request.json()
+    return startGame(data, raw)
 
 @app.post('/move')
-def move(data: Game):
-    return moveGame(data)
+async def move(data: Game, request: Request):
+    raw = await request.json()
+    return moveGame(data, raw)
 
 @app.post('/end')
-def end(data: Game):
-    return endGame(data)
+async def end(data: Game, request: Request):
+    raw = await request.json()
+    return endGame(data, raw)
 
 
 @app.get('/game/{game_id}')
-def end(game_id: str):
+def getGame(game_id: str):
     return getGame(game_id)
-
 
 
 # You should use uvicorn to run the app locally.  __main__ is provided to run it in a debugger. See
