@@ -69,10 +69,10 @@ def moveGame(game: Game):
     end = timer()
     elapsedTime = end - start
     print("move time: " + str(elapsedTime)) # Time in seconds
-    Timer(0.1, _finishMove, [game, gameBoard, move, elapsedTime]).start()
+    #Timer(0.1, _finishMove, [game, gameBoard, move, elapsedTime]).start()
     return {"move": move[0], "shout": move[1] }
 
 def endGame(game: Game):
     print('end with game', game)
-    _storeGameStep(game)
+    #_storeGameStep(game)
     return {}
