@@ -4,7 +4,7 @@ from threading import Timer
 from app.config.config import redisConnection
 from app.models.game import Game
 from app.models.coord import Coord
-from app.game.gameBoard import GameBoard
+from app.game.gameBoard2 import GameBoard
 
 
 gameStore = {}
