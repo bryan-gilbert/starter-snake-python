@@ -10,7 +10,7 @@ count = 3
 
 def createBoard():
     board = Board(width, height, count)
-    board.set(1,2,0,'F')
+    board.set(1,2,0,'*')
     return board
 
 

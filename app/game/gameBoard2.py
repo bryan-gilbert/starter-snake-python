@@ -20,13 +20,13 @@ class GameBoard:
 
         # load the food into the board
         for c in data.board.food:
-            board.set(c.x, c.y, 0, 'F')
+            board.set(c.x, c.y, 0, '*')
 
         def _createSnake(snakeData, index):
             bodyPoints = []
             for c in snakeData.body:
                 bodyPoints.append( (c.x, c.y) )
-            snake = GameSnake(snakeData.id, index, bodyPoints)
+            snake = GameSnake(snakeData.id, snakeData.health, index, bodyPoints)
             return snake
 
         # find my snake and collect the rest into a list
@@ -56,8 +56,8 @@ class GameBoard:
         shout = mySnake.move
         if move != None:
             self.theMove = (move, shout)
-        print(mySnake)
         print(board)
+        print(mySnake)
 
 
     def getMoveShout(self):

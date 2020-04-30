@@ -4,13 +4,16 @@ EMPTY = '.'
 BLOCKED = ':'
 class Analysis:
     count = 0
+    distanceToFood = 999
     def __str__(self):
-        b = str(self.count)
-        return '{}'.format(b)
+        b = 'free cells: ' + str(self.count)
+        d = 'steps to food: ' + str(self.distanceToFood) if self.distanceToFood > 0 else 'no food'
+        return '{} {}'.format(b,  d)
 
 class GameSnake:
-    def __init__(self, id, index, body):
+    def __init__(self, id, health, index, body):
         self.id = id
+        self.health = health
         self.index = index
         self.body = body
         self.move = None
@@ -58,21 +61,30 @@ class GameSnake:
         start = 0
         bestCount = 0
         bestPoint = None
+        bestDistanceToFood = 999
+        bestDistanceToFoodPoint = None
         for pt in next:
             analysis = Analysis()
             analyzePaths(self.index, board, pt, start, limit, analysis)
             if bestCount < analysis.count:
                 bestCount = analysis.count
                 bestPoint = pt
-        if bestPoint:
+            if bestDistanceToFood > analysis.distanceToFood:
+                bestDistanceToFood = analysis.distanceToFood
+                bestDistanceToFoodPoint = pt
+        if self.health < 50 and bestDistanceToFoodPoint != None:
+            self.move = directionFromTo(head,bestDistanceToFoodPoint)
+            self.shout = 'move {} because the best food is {} steps away'.format(self.move, bestDistanceToFood)
+            # print(self.shout)
+        elif bestPoint:
             self.move = directionFromTo(head,bestPoint)
             self.shout = 'move {} because the best count is {}'.format(self.move, bestCount)
-            print(self.shout)
+            # print(self.shout)
 
     def chooseMove(self, board):
         if self.move:
             return (self.move, self.shout)
-        return ('up','No good here')
+        return ('right','No good here')
 
     def __str__(self):
         b = str(self.body)
@@ -86,6 +98,10 @@ def analyzePaths(index, board, fromPt, step, stepLimit, analysis):
     y = fromPt[1]
     # Get all the values at this location
     v = board.getAll(x, y)
+    food = v[0]
+    if food == '*':
+        analysis.distanceToFood = min(step + 1, analysis.distanceToFood)
+        # print('food at step ', food, step + 1, fromPt, analysis.distanceToFood)
     if okToVisit(v, index, step):
         letter = v[index]
         if BLOCKED != letter:
