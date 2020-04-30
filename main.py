@@ -11,11 +11,11 @@ app = FastAPI()
 
 @app.get('/')
 def index():
-    return '''
+    return {"name": 'zombie snake', "description":'''
 This is a Zombie Snake.
 Battlesnake documentation can be found at
 <a href="https://docs.battlesnake.com">https://docs.battlesnake.com</a>.
-'''
+'''}
 
 @app.post('/ping')
 def ping():

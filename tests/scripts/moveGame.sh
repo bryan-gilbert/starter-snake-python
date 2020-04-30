@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-echo -n "Pick game 1, 2, 3, 4, 5, 6, 7: "
+echo -n "Pick game 1, 2, 3, 4, 5, 6, 7, 8: "
 read gm
 case $gm in
 
@@ -22,6 +22,7 @@ case $gm in
 
     # you're in the top most left corner. stay on the board!
     [4] )
+        echo "Should stay on the board"
         curl -XPOST -H 'Content-Type: application/json' -d @tests/sample/game4.json http://localhost:8000/move
         ;;
 
@@ -41,6 +42,14 @@ case $gm in
         curl -XPOST -H 'Content-Type: application/json' -d @tests/sample/game7.json http://localhost:8000/move
         ;;
 
+    # as this is added my snake makes a right turn into the head of a bigger snake. It should go down or left.
+    [8] )
+        echo "Should turn left or go down"
+        curl -XPOST -H 'Content-Type: application/json' -d @tests/sample/game8.json http://localhost:8000/move
+        ;;
+
     *) echo "Invalid input"
         ;;
 esac
+
+echo ""
