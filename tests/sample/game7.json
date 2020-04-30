@@ -1,0 +1,158 @@
+{
+  "game": {
+    "id": "52c14843-fe90-4792-bcd4-0048cd88cdf8"
+  },
+  "turn": 8,
+  "board": {
+    "height": 11,
+    "width": 11,
+    "food": [
+      {
+        "x": 0,
+        "y": 1
+      }
+    ],
+    "snakes": [
+      {
+        "id": "gs_WBKbTmqY9HmVwdp6J3Kkx7DP",
+        "name": "! Battlesnake Official !",
+        "health": 92,
+        "body": [
+          {
+            "x": 2,
+            "y": 2
+          },
+          {
+            "x": 1,
+            "y": 2
+          },
+          {
+            "x": 1,
+            "y": 3
+          }
+        ],
+        "shout": "A token of gratitude is nonsensical, much like me."
+      },
+      {
+        "id": "gs_yfkPcDqkPYrS3FrfDFPBvTg7",
+        "name": "Python Battlesnake",
+        "health": 95,
+        "body": [
+          {
+            "x": 8,
+            "y": 6
+          },
+          {
+            "x": 7,
+            "y": 6
+          },
+          {
+            "x": 7,
+            "y": 7
+          },
+          {
+            "x": 7,
+            "y": 8
+          }
+        ],
+        "shout": ""
+      },
+      {
+        "id": "gs_pWTbmMrGV8xCcgFxKVDqRybC",
+        "name": "hissin-bastid",
+        "health": 99,
+        "body": [
+          {
+            "x": 5,
+            "y": 1
+          },
+          {
+            "x": 6,
+            "y": 1
+          },
+          {
+            "x": 7,
+            "y": 1
+          },
+          {
+            "x": 7,
+            "y": 2
+          },
+          {
+            "x": 7,
+            "y": 3
+          }
+        ],
+        "shout": ""
+      },
+      {
+        "id": "gs_cKPyf7j6SY38GkXMb7CwCMTX",
+        "name": "PJPJPJPJ",
+        "health": 92,
+        "body": [
+          {
+            "x": 0,
+            "y": 2
+          },
+          {
+            "x": 0,
+            "y": 3
+          },
+          {
+            "x": 0,
+            "y": 4
+          }
+        ],
+        "shout": ""
+      },
+      {
+        "id": "gs_mK4Fgwr89JFgj68RmhBFvCtK",
+        "name": "Zombie Snake",
+        "health": 96,
+        "body": [
+          {
+            "x": 3,
+            "y": 1
+          },
+          {
+            "x": 3,
+            "y": 0
+          },
+          {
+            "x": 2,
+            "y": 0
+          },
+          {
+            "x": 1,
+            "y": 0
+          }
+        ],
+        "shout": "down"
+      }
+    ]
+  },
+  "you": {
+    "id": "gs_mK4Fgwr89JFgj68RmhBFvCtK",
+    "name": "Zombie Snake",
+    "health": 96,
+    "body": [
+      {
+        "x": 3,
+        "y": 1
+      },
+      {
+        "x": 3,
+        "y": 0
+      },
+      {
+        "x": 2,
+        "y": 0
+      },
+      {
+        "x": 1,
+        "y": 0
+      }
+    ],
+    "shout": "down"
+  }
+}

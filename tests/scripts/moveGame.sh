@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-echo -n "Pick game 1, 2, 3, 4, 5, 6: "
+echo -n "Pick game 1, 2, 3, 4, 5, 6, 7: "
 read gm
 case $gm in
 
@@ -35,6 +35,11 @@ case $gm in
         curl -XPOST -H 'Content-Type: application/json' -d @tests/sample/game6.json http://localhost:8000/move
         ;;
 
+    # as this is added my snake doesn't know that the best move is to go for the smaller snake. Instead
+    # it just doesn't have a clue and turns right into the bigger snake
+    [7] )
+        curl -XPOST -H 'Content-Type: application/json' -d @tests/sample/game7.json http://localhost:8000/move
+        ;;
 
     *) echo "Invalid input"
         ;;
