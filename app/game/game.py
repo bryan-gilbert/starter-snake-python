@@ -32,7 +32,7 @@ def _storeGameStep(game: Game, raw, move = ('',''), elapsed = 0):
     gameDict: GameData = gameStore[id]
     moveJson = json.dumps(raw)
     direction = move[0]
-    print('create MoveData from ', game.turn, direction, elapsed, moveJson)
+    # print('create MoveData from ', game.turn, direction, elapsed, moveJson)
     move = MoveData(turn = game.turn, move = direction, elapsed = elapsed, raw = moveJson)
     gameDict.moves.append(move)
 

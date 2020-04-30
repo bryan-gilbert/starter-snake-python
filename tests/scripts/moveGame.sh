@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-echo -n "Pick game 1, 2, 3, 4: "
+echo -n "Pick game 1, 2, 3, 4, 5: "
 read gm
 case $gm in
 
@@ -19,6 +19,10 @@ case $gm in
 
     [4] )
         curl -XPOST -H 'Content-Type: application/json' -d @tests/sample/game4.json http://localhost:8000/move
+        ;;
+
+    [5] )
+        curl -XPOST -H 'Content-Type: application/json' -d @tests/sample/game5.json http://localhost:8000/move
         ;;
 
 

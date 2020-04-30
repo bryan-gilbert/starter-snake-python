@@ -34,8 +34,15 @@ class GameSnake:
 
     def addBodyToBoard(self, board):
         n = self.index
+        letters = self.letters
+        print("Add self to board", str(self))
         for i, pt in enumerate(self.body):
-            board.set(pt[0], pt[1], n, self.letters[i])
+            letter = ''
+            if i < len(letters):
+                letter = letters[i]
+            else:
+                letter = letters[len(letters)-1]
+            board.set(pt[0], pt[1], n, letter)
 
     def analyze(self, board, snakes):
         head = self.body[0]
