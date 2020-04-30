@@ -1,15 +1,14 @@
 import json
-from timeit import default_timer as timer
+from pydantic import BaseModel, Json
 from threading import Timer
+from timeit import default_timer as timer
+from typing import List
 
 from app.config.config import redisConnection
 from app.models.game import Game
-from app.models.coord import Coord
-from app.game.gameBoard2 import GameBoard
+from app.game.gameBoard import GameBoard
 
-
-from pydantic import BaseModel, Json
-from typing import List
+""" --------------- Storage ------------------ """
 
 gameStore = {}
 
@@ -49,6 +48,8 @@ def getGame(id):
     print(data)
     return data
 
+""" --------------- Game end points ------------------ """
+
 def startGame(game: Game, raw):
     print("start game: " + game.game.id)
     print("start turn: " + str(game.turn))
@@ -59,10 +60,6 @@ def startGame(game: Game, raw):
     color = "#e26d30"            # "#add8e6"
     response = {"color": color, "headType": headType, "tailType": tailType}
     return response
-
-
-def _finishMove(game, raw, move = '', elapsedTime = 0):
-    _storeGameStep(game, raw, move, elapsedTime)
 
 def moveGame(game: Game, raw):
     print('Move with raw', raw)
@@ -84,3 +81,7 @@ def endGame(game: Game, raw):
     print('end with raw', raw)
     _storeGameStep(game, raw)
     return {}
+
+def _finishMove(game, raw, move = '', elapsedTime = 0):
+    _storeGameStep(game, raw, move, elapsedTime)
+

@@ -4,14 +4,6 @@ EMPTY = '.'
 BLOCKED = ':'
 FAR = 99999 #bigger than all the steps in a really big board
 
-class Analysis:
-    count = 0
-    distanceToFood = FAR
-    def __str__(self):
-        b = 'free cells: ' + str(self.count)
-        d = 'steps to food: ' + str(self.distanceToFood) if self.distanceToFood > 0 else 'no food'
-        return '{} {}'.format(b,  d)
-
 class GameSnake:
     def __init__(self, id, health, index, body):
         self.id = id
@@ -91,6 +83,14 @@ class GameSnake:
 
 
 """ --------------- ANALYSIS ------------------ """
+
+class Analysis:
+    count = 0
+    distanceToFood = FAR
+    def __str__(self):
+        b = 'free cells: ' + str(self.count)
+        d = 'steps to food: ' + str(self.distanceToFood) if self.distanceToFood > 0 else 'no food'
+        return '{} {}'.format(b,  d)
 
 def analyzePaths(index, board, fromPt, step, stepLimit, analysis):
     if step >= stepLimit:

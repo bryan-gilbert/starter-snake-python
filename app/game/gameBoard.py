@@ -1,18 +1,15 @@
 import numpy as np
 
-np.set_printoptions(linewidth=400)
-
 from app.models.coord import Coord
 from app.models.game import Game
 
 from app.game.board import Board
-from app.game.gameSnake import GameSnake, directionFromTo
+from app.game.gameSnake import GameSnake
 
 class GameBoard:
     def __init__(self, data: Game):
-        verbose = False
-        self.theMove = ( 'right', 'default' )
-        limit = 6
+        self.theMove = ( 'right', "Don't have a clue where to go" )
+        limit = 6           # look steps out
         width = data.board.width
         height = data.board.height
         snakeCount = len(data.board.snakes)
