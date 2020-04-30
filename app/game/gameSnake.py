@@ -2,9 +2,11 @@ import string
 
 EMPTY = '.'
 BLOCKED = ':'
+FAR = 99999 #bigger than all the steps in a really big board
+
 class Analysis:
     count = 0
-    distanceToFood = 999
+    distanceToFood = FAR
     def __str__(self):
         b = 'free cells: ' + str(self.count)
         d = 'steps to food: ' + str(self.distanceToFood) if self.distanceToFood > 0 else 'no food'
@@ -26,10 +28,7 @@ class GameSnake:
 
     def floodHead(self, board, stepLimit):
         self.stepLimit = stepLimit # save for analysis
-        head = self.body[0]
-        x = head[0]
-        y = head[1]
-
+        x, y = self.body[0] # head
         next = board.getFourLegalPoints(x, y)
         start = 0
         for pt in next:
@@ -49,10 +48,8 @@ class GameSnake:
 
     def analyze(self, board, snakes):
         head = self.body[0]
-        x = head[0]
-        y = head[1]
+        x, y = head
         limit = self.stepLimit
-
         next = board.getFourLegalPoints(x, y)
         start = 0
         for pt in next:
@@ -61,7 +58,7 @@ class GameSnake:
         start = 0
         bestCount = 0
         bestPoint = None
-        bestDistanceToFood = 999
+        bestDistanceToFood = FAR
         bestDistanceToFoodPoint = None
         for pt in next:
             analysis = Analysis()
@@ -90,12 +87,15 @@ class GameSnake:
         b = str(self.body)
         return 'index:{} move:{} "{}"  body:{}'.format(self.index, self.move, self.shout, b)
 
+""" --------------- end snake ------------------ """
+
+
+""" --------------- ANALYSIS ------------------ """
 
 def analyzePaths(index, board, fromPt, step, stepLimit, analysis):
     if step >= stepLimit:
         return
-    x = fromPt[0]
-    y = fromPt[1]
+    x, y = fromPt
     # Get all the values at this location
     v = board.getAll(x, y)
     food = v[0]
@@ -113,13 +113,12 @@ def analyzePaths(index, board, fromPt, step, stepLimit, analysis):
                 analyzePaths(index, board, pt, step, stepLimit, analysis)
 
 
+""" --------------- SAFE ------------------ """
 
 def safePaths(myIndex, board, fromPt, step, stepLimit, snakes):
     if step >= stepLimit:
         return
-
-    x = fromPt[0]
-    y = fromPt[1]
+    x, y = fromPt
     mysnake = snakes[myIndex].getLength()
 
     # Get all the values at this location
@@ -151,15 +150,12 @@ def safePaths(myIndex, board, fromPt, step, stepLimit, snakes):
             safePaths(myIndex, board, pt, step, stepLimit, snakes)
 
 
-""" --------------- FLOD ------------------ """
+""" --------------- FLOOD ------------------ """
 
 def floodFrom(index, board, fromPt, step, stepLimit):
     if step >= stepLimit:
         return
-
-    x = fromPt[0]
-    y = fromPt[1]
-
+    x, y = fromPt
     # put a letter into the matrix, at index, to indicate visited at this step
     letter = string.ascii_lowercase[step]
 
