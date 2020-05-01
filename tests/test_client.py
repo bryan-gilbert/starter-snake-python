@@ -90,3 +90,12 @@ def test_move8():
     expected = 'down'
     reason = 'stay away from bigger snake. go down or left'
     util_move_file(fName, expected, reason)
+
+
+""" This test fails """
+def test_move_boxedIn():
+    # as this is added my snake makes a left and will eventually collide with itself.
+    fName = 'boxedIn.json'
+    expected = 'right'
+    reason = 'This snake is boxed in if it turns left and will die as the head gets to 10,10. It needs to turn right to survive and that means looking out a long way'
+    util_move_file(fName, expected, reason)
